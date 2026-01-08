@@ -9,6 +9,7 @@ export default drizzleD1Config(
   {
     accountId: process.env.CLOUDFLARE_D1_ACCOUNT_ID,
     apiToken: process.env.CLOUDFLARE_D1_API_TOKEN,
+    databaseId: '91c4228b-dfe9-4082-90e0-dd92d3ee8efd',
     binding: 'DB',
     remote: process.env.REMOTE === 'true' || process.env.REMOTE === '1',
   }
