@@ -1,0 +1,7 @@
+services:
+  analytics-service:
+    build: .
+    ports:
+      - '8005:8080'
+    environment:
+      - ENVIRONMENT=local
