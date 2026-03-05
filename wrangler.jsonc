@@ -39,7 +39,7 @@
         {
           "binding": "DB",
           "database_name": "crow-core-analytics-service-db-dev",
-          "database_id": "bc692f0b-d715-4286-9d9a-06a9a51877bb"
+          "database_id": "e373e722-ac26-474c-8747-a1974f32eee3"
         }
       ],
       "r2_buckets": [
