@@ -2,6 +2,7 @@ import { z } from '@hono/zod-openapi';
 
 export interface Environment {
   DB: D1Database;
+  R2_BUCKET: R2Bucket;
   INTERNAL_GATEWAY_KEY?: string;
   ENVIRONMENT: string;
 }
