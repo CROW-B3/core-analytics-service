@@ -15,7 +15,8 @@
     {
       "binding": "DB",
       "database_name": "crow-core-analytics-service-db",
-      "database_id": "0fdc41ce-9bfd-479b-acfe-9c8bd162d8c3"
+      "database_id": "0fdc41ce-9bfd-479b-acfe-9c8bd162d8c3",
+      "migrations_dir": "drizzle/migrations"
     }
   ],
   "r2_buckets": [
@@ -39,7 +40,8 @@
         {
           "binding": "DB",
           "database_name": "crow-core-analytics-service-db-dev",
-          "database_id": "e373e722-ac26-474c-8747-a1974f32eee3"
+          "database_id": "e373e722-ac26-474c-8747-a1974f32eee3",
+          "migrations_dir": "drizzle/migrations"
         }
       ],
       "r2_buckets": [
@@ -57,7 +59,8 @@
         {
           "binding": "DB",
           "database_name": "crow-core-analytics-service-db-local",
-          "database_id": "91c4228b-dfe9-4082-90e0-dd92d3ee8efd"
+          "database_id": "91c4228b-dfe9-4082-90e0-dd92d3ee8efd",
+          "migrations_dir": "drizzle/migrations"
         }
       ],
       "r2_buckets": [
