@@ -26,7 +26,6 @@ const app = new OpenAPIHono<{ Bindings: Environment }>({
 });
 app.use(logger());
 
-// Fail-closed: if INTERNAL_GATEWAY_KEY is not provisioned, reject all API requests
 app.use('/api/v1/*', async (c, next) => {
   if (!c.env.INTERNAL_GATEWAY_KEY) {
     return c.json({ error: 'Service misconfigured' }, 503);
@@ -41,7 +40,6 @@ app.use('/api/v1/*', async (c, next) => {
   return next();
 });
 
-// Sanitize validation errors — never leak ZodError schema details
 app.onError((err, c) => {
   const errorName = err instanceof Error ? err.name : '';
   const errorMessage = err instanceof Error ? err.message : '';
@@ -62,10 +60,6 @@ app.onError((err, c) => {
 });
 
 app.openapi(HealthRoute, c => c.json({ status: 'ok' }, 200));
-
-// ---------------------------------------------------------------------------
-// Client-facing convenience endpoints — organizationId as query param
-// ---------------------------------------------------------------------------
 
 app.openapi(GetOverviewRoute, async c => {
   const { organizationId } = c.req.valid('query');
@@ -203,8 +197,6 @@ app.openapi(GetSessionsRoute, async c => {
 
   const db = drizzle(c.env.DB, { schema });
 
-  // Derive sessions by grouping on the `source` field. Each distinct source
-  // value represents a logical session (e.g. a web session, SDK session, etc).
   const sessionRows = await db
     .select({
       sessionId: schema.analyticsEvent.source,
@@ -227,10 +219,6 @@ app.openapi(GetSessionsRoute, async c => {
 
   return c.json({ sessions: paginated, total }, 200);
 });
-
-// ---------------------------------------------------------------------------
-// Original routes
-// ---------------------------------------------------------------------------
 
 app.openapi(CreateEventRoute, async c => {
   const callerOrgId = c.req.header('X-Organization-Id');
