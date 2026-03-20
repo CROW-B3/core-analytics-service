@@ -6,6 +6,116 @@ import {
   ErrorSchema,
 } from '../types';
 
+// ---------------------------------------------------------------------------
+// Client-facing convenience routes (accept organizationId as query param)
+// ---------------------------------------------------------------------------
+
+export const GetOverviewRoute = createRoute({
+  method: 'get',
+  path: '/api/v1/analytics/overview',
+  request: {
+    query: z.object({
+      organizationId: z.string().min(1),
+    }),
+  },
+  responses: {
+    200: {
+      content: {
+        'application/json': { schema: AnalyticsSummarySchema },
+      },
+      description: 'Analytics overview (summary) for organization',
+    },
+    400: {
+      content: { 'application/json': { schema: ErrorSchema } },
+      description: 'Missing organizationId',
+    },
+    403: {
+      content: { 'application/json': { schema: ErrorSchema } },
+      description: 'Forbidden',
+    },
+  },
+});
+
+export const GetEventsQueryRoute = createRoute({
+  method: 'get',
+  path: '/api/v1/analytics/events',
+  request: {
+    query: z.object({
+      organizationId: z.string().min(1),
+      limit: z
+        .string()
+        .regex(/^[1-9]\d*$/)
+        .optional(),
+      offset: z.string().regex(/^\d+$/).optional(),
+      eventType: z.string().max(128).optional(),
+      source: z.string().max(128).optional(),
+    }),
+  },
+  responses: {
+    200: {
+      content: {
+        'application/json': { schema: AnalyticsEventListResponseSchema },
+      },
+      description: 'Analytics events for organization',
+    },
+    400: {
+      content: { 'application/json': { schema: ErrorSchema } },
+      description: 'Missing organizationId',
+    },
+    403: {
+      content: { 'application/json': { schema: ErrorSchema } },
+      description: 'Forbidden',
+    },
+  },
+});
+
+export const GetSessionsRoute = createRoute({
+  method: 'get',
+  path: '/api/v1/analytics/sessions',
+  request: {
+    query: z.object({
+      organizationId: z.string().min(1),
+      limit: z
+        .string()
+        .regex(/^[1-9]\d*$/)
+        .optional(),
+      offset: z.string().regex(/^\d+$/).optional(),
+    }),
+  },
+  responses: {
+    200: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            sessions: z.array(
+              z.object({
+                sessionId: z.string(),
+                eventCount: z.number(),
+                firstSeen: z.number(),
+                lastSeen: z.number(),
+              })
+            ),
+            total: z.number(),
+          }),
+        },
+      },
+      description: 'Session summary derived from analytics events',
+    },
+    400: {
+      content: { 'application/json': { schema: ErrorSchema } },
+      description: 'Missing organizationId',
+    },
+    403: {
+      content: { 'application/json': { schema: ErrorSchema } },
+      description: 'Forbidden',
+    },
+  },
+});
+
+// ---------------------------------------------------------------------------
+// Original routes (kept for backwards compatibility)
+// ---------------------------------------------------------------------------
+
 export const CreateEventRoute = createRoute({
   method: 'post',
   path: '/api/v1/analytics/events',
