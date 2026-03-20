@@ -6,10 +6,6 @@ import {
   ErrorSchema,
 } from '../types';
 
-// ---------------------------------------------------------------------------
-// Client-facing convenience routes (accept organizationId as query param)
-// ---------------------------------------------------------------------------
-
 export const GetOverviewRoute = createRoute({
   method: 'get',
   path: '/api/v1/analytics/overview',
@@ -111,10 +107,6 @@ export const GetSessionsRoute = createRoute({
     },
   },
 });
-
-// ---------------------------------------------------------------------------
-// Original routes (kept for backwards compatibility)
-// ---------------------------------------------------------------------------
 
 export const CreateEventRoute = createRoute({
   method: 'post',
